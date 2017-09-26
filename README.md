@@ -1,3 +1,3 @@
 # githook1
 Test for githooks
-push3
+pusho4
