@@ -1,4 +1,5 @@
 # githook1
 Test for githooks
-push5
-push6
+Fix merging bug1
+Fix merging bug2
+Fix merging bug3
