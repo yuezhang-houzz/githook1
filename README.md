@@ -1,4 +1,4 @@
 # githook1
 Test for githooks
 
---no-verify24
+--no-verify25
