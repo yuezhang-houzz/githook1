@@ -66,7 +66,6 @@ def edit_last_commit_msg(lines_changed,commit):
 	enc  = encode(time,commit)
 	ori_msg = get_commit_message(commit)
 	new_msg = "\nlineschanged:"+str(lines_changed)+"\n"+"encryption:"+enc
-	print(new_msg)
 	subprocess.check_output("git commit --amend -m \""+new_msg+"\"",shell=True)
 
 def get_git_commit_time(commit):
