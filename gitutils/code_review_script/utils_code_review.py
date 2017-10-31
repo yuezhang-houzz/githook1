@@ -7,6 +7,7 @@ import json
 import re
 import datetime
 import base64
+import calendar
 
 def get_git_branch_name():
 	return subprocess.check_output(["git", "rev-parse","--abbrev-ref","HEAD"]).decode('utf-8')
@@ -52,19 +53,18 @@ def get_review_ids_from_msg(revs_list):
 	return ids
 
 def edit_last_commit_msg(lines_changed,commit):
-    time = datetime.datetime.now()
-    print(time)
-    enc  = encode(time,commit)
+    time = datetime.datetime.utcnow()
+    unixtime = calendar.timegm(time.utctimetuple())
+    print(unixtime)
+    enc  = encode(str(unixtime),commit)
     ori_msg = get_commit_message(commit)
     new_msg = ori_msg+"\nlineschanged:"+str(lines_changed)+"\n"+"encryption:"+enc
     subprocess.check_output("git commit --amend -m \""+new_msg+"\"",shell=True)
 
-def decode(key, enc):
-    dec = []
-    enc = base64.urlsafe_b64decode(enc)
-    for i in range(len(enc)):
+def encode(key, clear):
+    enc = []
+    for i in range(len(clear)):
         key_c = key[i % len(key)]
-        dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
-        dec.append(dec_c)
-
-    return "".join(dec)
+        enc_c = chr((ord(clear[i]) + ord(key_c)) % 256)
+        enc.append(enc_c)
+    return base64.urlsafe_b64encode("".join(enc))
