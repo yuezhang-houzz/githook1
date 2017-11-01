@@ -33,7 +33,10 @@ def get_lines_changed_commit(rev):
 	count = 0 
 	stat = subprocess.check_output("git diff --numstat "+rev+"^ "+rev,shell=True).decode('utf-8').splitlines()
 	for line in stat:
-		count += int(re.search(r'\d+', line).group())
+		try:
+			count += int(re.search(r'\d+', line).group())
+		except Exception as e:
+			print("Error occur when counting lines changed")
 	return count
 
 def get_commit_message(rev):
