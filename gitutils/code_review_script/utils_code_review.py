@@ -9,6 +9,8 @@ import datetime
 import base64
 import calendar
 
+
+
 def get_git_branch_name():
 	return subprocess.check_output(["git", "rev-parse","--abbrev-ref","HEAD"]).decode('utf-8')
 
